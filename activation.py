@@ -1,22 +1,22 @@
 import numpy as np
 
 
-class tanh:
+class Tanh:
     """
     This activation squashes the output in the range -1 and 1.
     """
 
-    def forward_pass(self, bottom):
-        output = np.tanh(bottom)
+    def forward_pass(self, x):
+        output = np.tanh(x)
         return output
 
-    def backward_pass(self, top):
+    def backward_pass(self, top, top_diff):
         x = self.forward_pass(top)
-        output = (1.0 - np.square(x))
+        output = (1.0 - np.square(x)) * top_diff
         return
 
 
-class sigmoid:
+class Sigmoid:
     """
     This activation squashes the output in the range 0 and 1.
     """
@@ -32,7 +32,7 @@ class sigmoid:
 
 
 # source: https://stackoverflow.com/a/47936476/6244324
-class relu:
+class Relu:
     """
     This activation gives an output x if x is positive and 0 otherwise.
     Mathematically this can be represented as: A(x) = max(0,x)

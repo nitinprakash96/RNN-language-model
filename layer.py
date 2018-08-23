@@ -1,11 +1,11 @@
 import numpy as np
 
-from activation import tanh, sigmoid, relu
+from activation import Tanh, Sigmoid, Relu
 from node import MultiplyNode, SumNode
 
 mul = MultiplyNode()
 add = SumNode()
-activation = sigmoid()
+activation = Tanh()
 
 
 class Layer:
