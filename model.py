@@ -105,7 +105,7 @@ class Model:
               x,
               y,
               learning_rate=0.005,
-              nepoch=100,
+              nb_epoch=100,
               evaluate_loss_after=2):
         examples_seen = 0
         losses = []
@@ -122,7 +122,7 @@ class Model:
                     learning_rate = learning_rate * 0.5
                     print("Setting learning rate to %f" % learning_rate)
                 sys.stdout.flush()
-            # For each training example...
+            # For each training example
             for i in range(len(y)):
                 self.sgd_step(x[i], y[i], learning_rate)
                 examples_seen += 1

@@ -9,7 +9,7 @@ class MultiplyNode:
     def backward_pass(self, W, x, dz):
         # Think of a more readable way
         dW = np.asarray(np.dot(np.transpose(np.asmatrix(dz)), np.asmatrix(x)))
-        dx = np.dot(W.T, dz)
+        dx = np.dot(np.transpose(W), dz)
         return dW, dx
 
 
