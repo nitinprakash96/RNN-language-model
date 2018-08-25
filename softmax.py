@@ -3,8 +3,8 @@ import numpy as np
 
 class Softmax:
     def predict(self, x):
-        output = np.exp(x) / np.sum(np.exp(x))
-        return output
+        z = np.exp(x)
+        return z / np.sum(z)
 
     def loss(self, X, y):
         probs = self.predict(X)

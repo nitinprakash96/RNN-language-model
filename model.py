@@ -23,14 +23,14 @@ class Model:
     def forward_pass(self, x):
         time_steps = len(x)
         layers = []
-        prev = np.zeros(self.hidden_dim)
+        prev_act = np.zeros(self.hidden_dim)
 
         for i in range(time_steps):
             layer = Layer()
             _input = np.zeros(self.word_dim)
             _input[x[i]] = 1
-            layer.forward(_input, self.U, self.W, self.V, prev)
-            prev = layer.act
+            layer.forward(_input, prev_act, self.U, self.W, self.V)
+            prev_act = layer.act
             layers.append(layer)
 
         return layers
@@ -76,8 +76,8 @@ class Model:
             dmulV = output.diff_scores(layers[i].mulV, y[i])
             _input = np.zeros(self.word_dim)
             _input[x[i]] = 1
-            dU_i, dW_i, dV_i, dprev_act = layers[i].backward(
-                _input, self.U, self.W, self.V, prev_t, diff, dmulV)
+            dprev_act, dU_i, dW_i, dV_i = layers[i].backward(
+                _input, prev_t, self.U, self.W, self.V, diff, dmulV)
             prev_t = layers[i].act
             dmulV = np.zeros(self.word_dim)
             for j in range(i - 1, max(-1, i - self.truncate - 1), -1):
@@ -85,8 +85,8 @@ class Model:
                 _input[x[j]] = 1
                 prev_j = np.zeros(
                     self.hidden_dim) if j == 0 else layers[j - 1].act
-                dU_j, dW_j, dV_j, dprev_act = layers[i].backward(
-                    _input, self.U, self.W, self.V, prev_j, dprev_act, dmulV)
+                dprev_act, dU_j, dW_j, dV_j = layers[i].backward(
+                    _input, prev_j, self.U, self.W, self.V, dprev_act, dmulV)
                 dU_i += dU_j
                 dW_i += dW_j
             dV += dV_i
@@ -106,7 +106,7 @@ class Model:
               y,
               learning_rate=0.005,
               nb_epoch=100,
-              evaluate_loss_after=2):
+              evaluate_loss_after=1):
         examples_seen = 0
         losses = []
 

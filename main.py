@@ -15,4 +15,4 @@ losses = rnn.train(
     y_train[:100],
     learning_rate=0.005,
     nb_epoch=100,
-    evaluate_loss_after=2)
+    evaluate_loss_after=1)

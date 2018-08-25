@@ -12,8 +12,9 @@ class Tanh:
 
     def backward_pass(self, top, top_diff):
         x = self.forward_pass(top)
+        #print(top_diff)
         output = (1.0 - np.square(x)) * top_diff
-        return
+        return output
 
 
 class Sigmoid:
